@@ -27,6 +27,7 @@ and lives by the Paris sun.
 [![Security Scan](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml/badge.svg)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml)
 [![OWASP ZAP](https://img.shields.io/badge/OWASP-ZAP%20DAST-orange.svg?logo=owasp)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg?logo=vitest)](#-tests)
+[![Release](https://img.shields.io/github/v/release/manufao/animated-avatar-mouse-tracking?logo=github)](https://github.com/manufao/animated-avatar-mouse-tracking/releases/latest)
 <br>
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules-f7df1e.svg?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules)
 [![Vite](https://img.shields.io/badge/build-Vite-646cff.svg?logo=vite&logoColor=white)](https://vite.dev/)
@@ -135,12 +136,24 @@ The Python tools have their own pytest suite, with 100% coverage of the mask hel
 
 ## 🌍 Deployment (Apache shared hosting)
 
-1. `pnpm build`
-2. Upload **the content** of `dist/` to the site root, over FTP for instance.
+1. Download `site-vX.Y.Z.zip` from the [latest release](https://github.com/manufao/animated-avatar-mouse-tracking/releases/latest), or build it yourself with `pnpm build` (the site lands in `dist/`).
+2. Upload **the content** of the zip, or of `dist/`, to the site root, over FTP for instance.
    `.htaccess` is a hidden file: make sure your FTP client uploads it.
-3. Check the headers: `curl -sI https://your-domain/`
+3. Check the headers: `curl -sI https://emmanuelmaravilha.com/`
 
-`.htaccess` has settings to adapt: the HTTPS redirect (commented out) and the HSTS duration.
+`.htaccess` sends every visit to `https://emmanuelmaravilha.com/`: to host the page elsewhere, replace that address in its redirect rule. HSTS starts short (`max-age=300`), to raise to one year once HTTPS is checked on the live site.
+
+## 🏷️ Releases
+
+Each release is listed in the [changelog](CHANGELOG.md). To publish one:
+
+1. In a pull request, set the new `version` in `package.json` and add its section to `CHANGELOG.md`.
+2. Once merged, tag `main` and push the tag:
+   ```bash
+   git switch main && git pull
+   git tag v1.1.0 && git push origin v1.1.0
+   ```
+3. The release workflow checks the tag against `package.json`, runs the tests, builds the site and publishes the release with `site-v1.1.0.zip` and the changelog notes.
 
 ## 🛡️ Quality and security
 
