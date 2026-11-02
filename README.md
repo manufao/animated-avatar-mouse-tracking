@@ -19,6 +19,10 @@
 A 2D avatar follows your mouse with its eyes, blinks, gets bored, yawns…
 and lives by the Paris sun.
 
+<a href="https://emmanuelmaravilha.com/">
+  <img src="https://img.shields.io/badge/%F0%9F%91%80_Live_demo-emmanuelmaravilha.com-c2492a?style=for-the-badge" alt="Live demo on emmanuelmaravilha.com">
+</a>
+
 [![CI](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/ci.yml/badge.svg)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/ci.yml)
 [![Security Scan](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml/badge.svg)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml)
 [![OWASP ZAP](https://img.shields.io/badge/OWASP-ZAP%20DAST-orange.svg?logo=owasp)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml)
@@ -53,6 +57,8 @@ and lives by the Paris sun.
 ---
 
 ## 🎭 What it does
+
+> **👉 See it in action on [emmanuelmaravilha.com](https://emmanuelmaravilha.com/)**: move your mouse, stay still for a while, click it… and come back at night to pull the light chain.
 
 |                                  |                                                                                      |
 | -------------------------------- | ------------------------------------------------------------------------------------ |
