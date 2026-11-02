@@ -1,0 +1,14 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# Build output and reports
+dist/
+coverage/
+
+# Apache config and the Python layer tool: not Prettier languages
+public/.htaccess
+outils/
