@@ -85,6 +85,14 @@ outils/                   avatar layer builder (see outils/README.md)
 
 Dependencies go one way only: `components` use `lib`, `data` and `config`, never the other way round.
 
+## 🎨 Bring your own avatar
+
+The avatar is a stack of transparent layers on the same 720 × 960 canvas: the body, the blank head, the bored, happy and yawning faces, the closed eyelids, and one accessory per special date. The eyes are not in the pictures: they are CSS shapes behind the transparent eye holes of the head, which is why the pupils can move.
+
+[`outils/build_layers.py`](outils/build_layers.py) builds these layers from seven pictures of the same character, one per expression, all with the same framing. It removes the white background, cuts the head from the body, and writes the eye and neck positions to `out/landmarks.json`, ready to copy into `src/assets/css/avatar.css`. The steps are in [outils/README.md](outils/README.md).
+
+It is a one-off Python 3 tool (numpy, SciPy, Pillow), not part of the site build.
+
 ## 🧪 Tests
 
 Every file in `src/` has its Vitest test (`*.test.js`), and the CI requires **100%** coverage of statements, branches, functions and lines, for each file. The sun calculation is checked against the real Paris sunrise and sunset times.
