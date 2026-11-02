@@ -1,0 +1,11 @@
+Copyright (c) 2026 Emmanuel Maravilha. All rights reserved.
+
+The images in public/img/ (the avatar layers and the occasion accessories)
+depict the author. They are NOT covered by the MIT license of the source code.
+
+You may view them as part of this repository and of the deployed site. You may
+not copy, modify, redistribute or reuse them, in whole or in part, in any other
+project or medium without prior written permission from the author.
+
+To reuse the code with your own character, replace every file in public/img/
+with your own images (same names and canvas size: 720 x 960 pixels).
