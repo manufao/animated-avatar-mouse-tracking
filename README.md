@@ -134,14 +134,10 @@ Every file in `src/` has its Vitest test (`*.test.js`), and the CI requires **10
 
 The Python tools have their own pytest suite, with 100% coverage of the mask helpers (`pnpm test:tools`).
 
-## 🌍 Deployment (Apache shared hosting)
+## 🌍 Deployment
 
 1. Download `site-vX.Y.Z.zip` from the [latest release](https://github.com/manufao/animated-avatar-mouse-tracking/releases/latest), or build it yourself with `pnpm build` (the site lands in `dist/`).
-2. Upload **the content** of the zip, or of `dist/`, to the site root, over FTP for instance.
-   `.htaccess` is a hidden file: make sure your FTP client uploads it.
-3. Check the headers: `curl -sI https://emmanuelmaravilha.com/`
-
-`.htaccess` sends every visit to `https://emmanuelmaravilha.com/`: to host the page elsewhere, replace that address in its redirect rule. HSTS starts short (`max-age=300`), to raise to one year once HTTPS is checked on the live site.
+2. Upload **the content** of the zip, or of `dist/`, to the site root. `.htaccess` is a hidden file: make sure your FTP client uploads it.
 
 ## 🏷️ Releases
 

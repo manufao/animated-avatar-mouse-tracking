@@ -17,7 +17,7 @@ First public release, live on [emmanuelmaravilha.com](https://emmanuelmaravilha.
 - A ceiling light bulb whose chain switches the light on at night, and just swings by day.
 - Special dates: the avatar wears a paper crown for Epiphany (January 6).
 - With "reduce motion" turned on in the system settings, the avatar stays a still picture.
-- A ready-to-upload `site-v1.0.0.zip` attached to the release, for Apache shared hosting: unzip it at the site root.
+- A ready-to-upload `site-v1.0.0.zip` attached to the release: unzip it at the site root.
 - An avatar layer builder in `outils/` to make the layers of your own character.
 
 ### Security
