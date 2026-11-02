@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="public/img/avatar-static.webp" alt="L'avatar dessiné de l'auteur, chignon et regard curieux" width="220">
+<img src="public/img/avatar-static.webp" alt="Drawing of the author's avatar, with a bun and a curious look" width="220">
 
 # Animated Avatar Mouse Tracking
 
-**Une page « en construction » qui vous regarde.**
-Un avatar 2D suit votre souris des yeux, cligne, s'ennuie, bâille…
-et vit au rythme du soleil de Paris.
+**An "under construction" page that looks back at you.**
+A 2D avatar follows your mouse with its eyes, blinks, gets bored, yawns…
+and lives by the Paris sun.
 
 [![CI](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/ci.yml/badge.svg)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/ci.yml)
 [![Security Scan](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml/badge.svg)](https://github.com/manufao/animated-avatar-mouse-tracking/actions/workflows/security-scan.yml)
@@ -30,89 +30,90 @@ et vit au rythme du soleil de Paris.
 
 ---
 
-## 🎭 Ce qu'il fait
+## 🎭 What it does
 
-|                                    |                                                                                            |
-| ---------------------------------- | ------------------------------------------------------------------------------------------ |
-| 👀 **Il vous suit des yeux**       | Les pupilles et la tête suivent la souris, le doigt, ou le lien qui a le focus au clavier. |
-| 😌 **Il cligne des yeux**          | Toutes les 2,5 à 6,5 secondes, au hasard, comme un vrai.                                   |
-| 😑 **Il s'ennuie**                 | Huit secondes sans bouger ? Le regard tombe, la mine s'allonge.                            |
-| 🥱 **Il bâille**                   | Au bout de vingt secondes, puis de temps en temps. Bougez, il se réveille.                 |
-| 😄 **Il réagit au clic**           | Un petit saut de joie.                                                                     |
-| 🌅 **Il vit à l'heure de Paris**   | Aube, jour, crépuscule, nuit : les couleurs suivent le vrai soleil parisien.               |
-| 💡 **Il a une ampoule**            | La nuit, tirez la chaînette pour allumer la lumière. Le jour, elle se balance pour rien.   |
-| 🎉 **Il fête les dates spéciales** | Une couronne à l'Épiphanie, et d'autres accessoires à venir.                               |
-| ♿ **Il respecte vos réglages**    | Avec « réduire les animations », l'avatar reste une image fixe.                            |
+|                                  |                                                                                      |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| 👀 **It watches you**            | Pupils and head follow the mouse, a finger, or the link that has the keyboard focus. |
+| 😌 **It blinks**                 | At random, every 2.5 to 6.5 seconds, like a real one.                                |
+| 😑 **It gets bored**             | Eight seconds without moving? The eyes drop, the face goes long.                     |
+| 🥱 **It yawns**                  | After twenty seconds, then every now and then. Move, and it wakes up.                |
+| 😄 **It reacts to a click**      | A little hop of joy.                                                                 |
+| 🌅 **It lives on Paris time**    | Dawn, day, dusk, night: the colours follow the real Paris sun.                       |
+| 💡 **It has a light bulb**       | At night, pull the chain to switch the light on. By day, it just swings.             |
+| 🎉 **It celebrates**             | A paper crown for Epiphany, more accessories to come.                                |
+| ♿ **It respects your settings** | With "reduce motion" on, the avatar stays a still picture.                           |
 
-Aucune bibliothèque à l'exécution : HTML, CSS et JavaScript natifs, environ 10 Ko de JS une fois compressé.
+No runtime library: plain HTML, CSS and JavaScript, about 10 KB of JS once compressed.
+The page itself is written in French, for its French-speaking visitors.
 
-## 🚀 Démarrer
+## 🚀 Getting started
 
-Prérequis : Node.js 22.12 ou plus récent, et [pnpm](https://pnpm.io/).
+Requirements: Node.js 22.12 or later, and [pnpm](https://pnpm.io/).
 
 ```bash
 pnpm install
-pnpm dev        # serveur local avec rechargement automatique
+pnpm dev        # local server with hot reload
 ```
 
-| Commande                       | Rôle                                                      |
-| ------------------------------ | --------------------------------------------------------- |
-| `pnpm build`                   | Site de production dans `dist/`                           |
-| `pnpm preview`                 | Sert `dist/` en local pour vérifier le build              |
-| `pnpm test`                    | Tests unitaires en mode surveillance                      |
-| `pnpm test:ci`                 | Tests et couverture (100 % exigés, fichier par fichier)   |
-| `pnpm test:types`              | Vérification des types du JavaScript (JSDoc + TypeScript) |
-| `pnpm lint` / `pnpm lint:deps` | ESLint / règles de dépendances (dependency-cruiser)       |
-| `pnpm format`                  | Prettier                                                  |
+| Command                        | What it does                                      |
+| ------------------------------ | ------------------------------------------------- |
+| `pnpm build`                   | Production site in `dist/`                        |
+| `pnpm preview`                 | Serves `dist/` locally to check the build         |
+| `pnpm test`                    | Unit tests in watch mode                          |
+| `pnpm test:ci`                 | Tests with coverage (100% required, file by file) |
+| `pnpm test:types`              | Type check of the JavaScript (JSDoc + TypeScript) |
+| `pnpm lint` / `pnpm lint:deps` | ESLint / dependency rules (dependency-cruiser)    |
+| `pnpm format`                  | Prettier                                          |
 
-## 🗂️ Structure
+## 🗂️ Project structure
 
 ```
 index.html
 src/
-  main.js                 point d'entrée : branche la scène puis l'avatar
+  main.js                 entry point: starts the scene, then the avatar
   components/
-    scene/                ambiance jour/nuit, ampoule, choix du visiteur, dates spéciales
-    avatar/               regard, humeur, clignements, suivi du pointeur
-  lib/                    fonctions pures : soleil, calendrier, calculs du regard
-  data/occasions.js       les dates spéciales
-  config/                 réglages de la scène et de l'avatar
-  assets/css/             un fichier CSS par partie, réunis par main.css
-public/                   copié tel quel : images et .htaccess
-outils/                   découpe des calques de l'avatar (voir outils/LISEZMOI.md)
+    scene/                day/night mood, light bulb, visitor choice, special dates
+    avatar/               gaze, mood, blinks, pointer tracking
+  lib/                    pure functions: sun, calendar, gaze maths
+  data/occasions.js       the special dates
+  config/                 scene and avatar settings
+  assets/css/             one CSS file per part, gathered by main.css
+public/                   copied as is: images and .htaccess
+outils/                   avatar layer builder (see outils/README.md)
 ```
 
-Les dépendances vont dans un seul sens : `components` utilise `lib`, `data` et `config`, jamais l'inverse.
+Dependencies go one way only: `components` use `lib`, `data` and `config`, never the other way round.
 
 ## 🧪 Tests
 
-Chaque fichier de `src/` a son test Vitest (`*.test.js`), et la CI exige **100 %** de couverture sur les instructions, les branches, les fonctions et les lignes de chaque fichier. Le calcul du soleil est vérifié avec les vraies heures de lever et de coucher à Paris.
+Every file in `src/` has its Vitest test (`*.test.js`), and the CI requires **100%** coverage of statements, branches, functions and lines, for each file. The sun calculation is checked against the real Paris sunrise and sunset times.
 
-## 🌍 Déploiement (hébergement mutualisé Apache)
+## 🌍 Deployment (Apache shared hosting)
 
 1. `pnpm build`
-2. Envoyer **le contenu** de `dist/` à la racine du site, par FTP par exemple.
-   Le fichier `.htaccess` est caché : vérifiez que votre client FTP l'envoie bien.
-3. Contrôler les en-têtes : `curl -sI https://votre-domaine/`
+2. Upload **the content** of `dist/` to the site root, over FTP for instance.
+   `.htaccess` is a hidden file: make sure your FTP client uploads it.
+3. Check the headers: `curl -sI https://your-domain/`
 
-Le `.htaccess` contient des réglages à adapter : la redirection HTTPS (commentée) et la durée HSTS.
+`.htaccess` has settings to adapt: the HTTPS redirect (commented out) and the HSTS duration.
 
-## 🛡️ Qualité et sécurité
+## 🛡️ Quality and security
 
-- **Hooks Git** (Husky) : Gitleaks et lint-staged avant chaque commit, commitlint sur le message, et avant chaque push les types, le lint, les règles de dépendances et les tests. Le push direct sur `main` est refusé.
-- **CI GitHub** : format, lint, dépendances, types, tests avec couverture, build, puis Gitleaks, `pnpm audit`, Semgrep et OWASP ZAP.
-- **Vulnérabilité connue, sans impact en production** : `minimatch` < 11.0.1 ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)), sévérité modérée, tiré par ESLint 10 qui exige `minimatch` ^10. Forcer la version 11 casse ESLint. C'est un outil de développement : rien n'est livré sur le site. À retirer dès qu'une version d'ESLint accepte `minimatch` 11.
+- **Git hooks** (Husky): Gitleaks and lint-staged before each commit, commitlint on the message, and before each push the types, lint, dependency rules and tests. Direct pushes to `main` are refused.
+- **GitHub CI**: format, lint, dependencies, types, tests with coverage and build, then Gitleaks, `pnpm audit`, Semgrep and OWASP ZAP.
+- **Known advisory, no production impact**: `minimatch` < 11.0.1 ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)), moderate. It only comes with the dev tooling: ESLint 10.14 and `eslint-plugin-import-x` 4.17 (both the latest releases) still ask for `minimatch` 10, and the import-x plugin breaks with `minimatch` 11. The flaw needs `optimizationLevel` 2 or more and an attacker-controlled glob; ESLint keeps the default level and only reads the globs of this repository's own config. Nothing from these packages ships to the site. To be removed once both packages accept `minimatch` 11.
 
-## 📜 Licence
+## 📜 License
 
-- **Code** (HTML, CSS, JavaScript, configuration, `outils/`) : licence MIT, voir [LICENSE](LICENSE).
-- **Images** (`public/img/`) : tous droits réservés, voir [LICENSE-IMAGES](LICENSE-IMAGES).
-  L'avatar représente l'auteur : pour réutiliser le code, remplacez les images par les vôtres (720 × 960 pixels).
+- **Code** (HTML, CSS, JavaScript, configuration, `outils/`): MIT license, see [LICENSE](LICENSE).
+- **Images** (`public/img/`): all rights reserved, see [LICENSE-IMAGES](LICENSE-IMAGES).
+  The avatar depicts the author: to reuse the code, replace the images with your own (720 × 960 pixels).
 
 ---
 
 <div align="center">
 
-Fait avec ☕ par [Emmanuel Maravilha](https://github.com/manufao) · [LinkedIn](https://fr.linkedin.com/in/emmanuel-maravilha-0a8b053b)
+Made with ☕ by [Emmanuel Maravilha](https://github.com/manufao) · [LinkedIn](https://fr.linkedin.com/in/emmanuel-maravilha-0a8b053b)
 
 </div>

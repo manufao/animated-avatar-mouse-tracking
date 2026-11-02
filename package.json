@@ -1,7 +1,7 @@
 {
 	"name": "animated-avatar-mouse-tracking",
 	"private": true,
-	"description": "Page d'attente animée : un avatar 2D suit la souris, cligne des yeux, s'ennuie et bâille, au rythme du jour et de la nuit à Paris.",
+	"description": "Under construction page: a 2D avatar follows the mouse, blinks, gets bored and yawns, on Paris daylight time.",
 	"license": "MIT",
 	"author": "Emmanuel Maravilha",
 	"type": "module",
