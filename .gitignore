@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Source images and generated layers of the layer tool (personal, not published)
+outils/src/
+outils/out/
+__pycache__/
+
+# System and editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Other package managers (pnpm only) and test reports
+package-lock.json
+yarn.lock
+coverage/
