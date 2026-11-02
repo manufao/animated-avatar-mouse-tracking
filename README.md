@@ -1,6 +1,11 @@
 <div align="center">
 
-<img src="public/img/avatar-static.webp" alt="Drawing of the author's avatar, with a bun and a curious look" width="220">
+<img src="docs/images/banner.webp" alt="Animated Avatar Mouse Tracking: a night sky with a moon turning into a sunny day" width="100%">
+
+<br>
+<br>
+
+<img src="public/img/avatar-static.webp" alt="Drawing of the author's avatar, with a bun and a curious look" width="200">
 
 # Animated Avatar Mouse Tracking
 
@@ -25,6 +30,17 @@ and lives by the Paris sun.
 [![Conventional Commits](https://img.shields.io/badge/commits-conventional-fe5196.svg?logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org/)
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Images: all rights reserved](https://img.shields.io/badge/images-all%20rights%20reserved-lightgrey.svg)](LICENSE-IMAGES)
+<br>
+[![Python tools](https://img.shields.io/badge/tools-Python%203.13+-3776ab.svg?logo=python&logoColor=white)](outils/README.md)
+[![uv](https://img.shields.io/badge/env-uv-de5fe9.svg?logo=uv&logoColor=white)](https://docs.astral.sh/uv/)
+[![Ruff](https://img.shields.io/badge/lint-ruff-d7ff64.svg?logo=ruff&logoColor=black)](https://docs.astral.sh/ruff/)
+[![pytest](https://img.shields.io/badge/tests-pytest-0a9edc.svg?logo=pytest&logoColor=white)](https://docs.pytest.org/)
+
+### 🧰 Built with
+
+<a href="https://skillicons.dev">
+  <img src="https://skillicons.dev/icons?i=html,css,js,ts,vite,vitest,nodejs,pnpm,py,githubactions,git" alt="HTML, CSS, JavaScript, TypeScript, Vite, Vitest, Node.js, pnpm, Python, GitHub Actions, Git">
+</a>
 
 </div>
 
@@ -65,6 +81,7 @@ pnpm dev        # local server with hot reload
 | `pnpm test:types`              | Type check of the JavaScript (JSDoc + TypeScript) |
 | `pnpm lint` / `pnpm lint:deps` | ESLint / dependency rules (dependency-cruiser)    |
 | `pnpm format`                  | Prettier                                          |
+| `pnpm test:tools`              | Ruff and pytest for the Python tools of `outils/` |
 
 ## 🗂️ Project structure
 
@@ -80,7 +97,8 @@ src/
   config/                 scene and avatar settings
   assets/css/             one CSS file per part, gathered by main.css
 public/                   copied as is: images and .htaccess
-outils/                   avatar layer builder (see outils/README.md)
+outils/                   avatar layer builder, in Python (see outils/README.md)
+docs/images/              README banners and logos
 ```
 
 Dependencies go one way only: `components` use `lib`, `data` and `config`, never the other way round.
@@ -91,11 +109,17 @@ The avatar is a stack of transparent layers on the same 720 × 960 canvas: the b
 
 [`outils/build_layers.py`](outils/build_layers.py) builds these layers from seven pictures of the same character, one per expression, all with the same framing. It removes the white background, cuts the head from the body, and writes the eye and neck positions to `out/landmarks.json`, ready to copy into `src/assets/css/avatar.css`. The steps are in [outils/README.md](outils/README.md).
 
-It is a one-off Python 3 tool (numpy, SciPy, Pillow), not part of the site build.
+It is a one-off Python tool (numpy, SciPy, Pillow), not part of the site build. [uv](https://docs.astral.sh/uv/) installs its dependencies in an isolated environment:
+
+```bash
+uv run --project outils outils/build_layers.py
+```
 
 ## 🧪 Tests
 
 Every file in `src/` has its Vitest test (`*.test.js`), and the CI requires **100%** coverage of statements, branches, functions and lines, for each file. The sun calculation is checked against the real Paris sunrise and sunset times.
+
+The Python tools have their own pytest suite, with 100% coverage of the mask helpers (`pnpm test:tools`).
 
 ## 🌍 Deployment (Apache shared hosting)
 
@@ -108,14 +132,14 @@ Every file in `src/` has its Vitest test (`*.test.js`), and the CI requires **10
 
 ## 🛡️ Quality and security
 
-- **Git hooks** (Husky): Gitleaks and lint-staged before each commit, commitlint on the message, and before each push the types, lint, dependency rules and tests. Direct pushes to `main` are refused.
-- **GitHub CI**: format, lint, dependencies, types, tests with coverage and build, then Gitleaks, `pnpm audit`, Semgrep and OWASP ZAP.
+- **Git hooks** (Husky): Gitleaks and lint-staged before each commit, commitlint on the message, and before each push the types, lint, dependency rules, tests and Python checks. Direct pushes to `main` are refused.
+- **GitHub CI**: format, lint, dependencies, types, tests with coverage and build, Ruff and pytest for the Python tools, then Gitleaks, `pnpm audit`, Semgrep and OWASP ZAP.
 - **Known advisory, no production impact**: `minimatch` < 11.0.1 ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)), moderate. It only comes with the dev tooling: ESLint 10.14 and `eslint-plugin-import-x` 4.17 (both the latest releases) still ask for `minimatch` 10, and the import-x plugin breaks with `minimatch` 11. The flaw needs `optimizationLevel` 2 or more and an attacker-controlled glob; ESLint keeps the default level and only reads the globs of this repository's own config. Nothing from these packages ships to the site. To be removed once both packages accept `minimatch` 11.
 
 ## 📜 License
 
 - **Code** (HTML, CSS, JavaScript, configuration, `outils/`): MIT license, see [LICENSE](LICENSE).
-- **Images** (`public/img/`): all rights reserved, see [LICENSE-IMAGES](LICENSE-IMAGES).
+- **Images** (`public/img/` and `docs/images/`): all rights reserved, see [LICENSE-IMAGES](LICENSE-IMAGES).
   The avatar depicts the author: to reuse the code, replace the images with your own (720 × 960 pixels).
 
 ---
