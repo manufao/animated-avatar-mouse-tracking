@@ -1,0 +1,164 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Weekly, Sundays at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: Secret Scanning (Gitleaks)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # gitleaks-action lists the pull request commits through the API
+      pull-requests: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dependency-scan:
+    name: Dependency Scanning (pnpm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run pnpm audit
+        run: pnpm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Run pnpm audit (strict)
+        run: pnpm audit --audit-level=high
+
+  sast-scan:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Run Semgrep scan
+        run: |
+          semgrep scan --config="p/security-audit" --config="p/owasp-top-ten" --config="p/javascript" --text || true
+          echo "-------------------------------------------------------"
+          semgrep scan --sarif --output=semgrep.sarif --config="p/security-audit" --config="p/owasp-top-ten" --config="p/javascript"
+
+      - name: Upload Semgrep SARIF Artifact
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: semgrep-results-${{ github.sha }}
+          path: semgrep.sarif
+          retention-days: 15
+
+  zap-scan:
+    name: OWASP ZAP Scan (DAST)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Start application in background
+        run: pnpm run preview --port 3000 --strictPort &
+
+      - name: Wait for server to be ready
+        run: |
+          max_attempts=30
+          attempt=0
+          until curl -s -f http://localhost:3000 > /dev/null; do
+            attempt=$((attempt + 1))
+            if [ $attempt -ge $max_attempts ]; then
+              echo "Server failed to start after $max_attempts attempts"
+              exit 1
+            fi
+            sleep 2
+          done
+
+      - name: Run OWASP ZAP Baseline Scan
+        run: |
+          mkdir -p security-reports
+          chmod 777 security-reports
+          docker run --rm \
+            --network host \
+            -v $(pwd)/security-reports:/zap/wrk:rw \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py \
+            -t http://localhost:3000 \
+            -r zap-report.html \
+            -J zap-report.json \
+            -I \
+            || true
+          chmod 755 security-reports
+
+      - name: Upload ZAP Reports
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: zap-security-reports-${{ github.sha }}
+          path: security-reports/
+          retention-days: 15
+
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [secret-scan, dependency-scan, sast-scan, zap-scan]
+    if: always()
+    steps:
+      - name: Generate Security Summary
+        run: |
+          echo "# Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Secret Scanning (Gitleaks) | ${{ needs.secret-scan.result == 'success' && 'Passed' || 'Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Scanning (pnpm audit) | ${{ needs.dependency-scan.result == 'success' && 'Passed' || 'Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SAST (Semgrep) | ${{ needs.sast-scan.result == 'success' && 'Passed' || 'Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| OWASP ZAP Scan (DAST) | ${{ needs.zap-scan.result == 'success' && 'Passed' || 'Failed' }} |" >> $GITHUB_STEP_SUMMARY
