@@ -1,0 +1,8 @@
+/* Entry point: Vite (Lightning CSS) inlines these imports into a single minified file. */
+@import './tokens.css';
+@import './base.css';
+@import './scene.css';
+@import './avatar.css';
+@import './lamp.css';
+@import './scene-choices.css';
+@import './footer.css';

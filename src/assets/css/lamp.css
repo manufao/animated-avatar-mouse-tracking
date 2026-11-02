@@ -1,0 +1,217 @@
+/* --- Ceiling bulb ---
+   The cord goes up past the top of the screen, like a bare closet bulb.
+   Sizes use --u so the lamp follows the avatar size. */
+.lamp {
+	--metal: #8d8478;
+	--cord: #2f2a26;
+	--glass: rgba(236, 233, 224, 0.75);
+	--filament: #7a6a58;
+	position: absolute;
+	z-index: 2;
+	top: calc(var(--u) * 4);
+	left: calc(50% + var(--lamp-x));
+	width: calc(var(--u) * 14);
+	display: grid;
+	justify-items: center;
+	/* Pivot at the ceiling, far above: a small angle gives a gentle sway */
+	transform-origin: 50% -100vh;
+	pointer-events: none;
+
+	/* Cord up to the ceiling */
+	&::before {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		width: max(2px, calc(var(--u) * 0.6));
+		height: 100vh;
+		translate: -50% 0;
+		background: var(--cord);
+	}
+}
+
+/* Socket: metal with screw ridges */
+.lamp__socket {
+	position: relative;
+	width: calc(var(--u) * 6);
+	height: calc(var(--u) * 7);
+	border-radius: calc(var(--u) * 1) calc(var(--u) * 1) calc(var(--u) * 0.6)
+		calc(var(--u) * 0.6);
+	background:
+		repeating-linear-gradient(
+			to bottom,
+			transparent 0 calc(var(--u) * 1.1),
+			rgba(0, 0, 0, 0.28) calc(var(--u) * 1.1) calc(var(--u) * 1.6)
+		),
+		linear-gradient(to right, #5f584f, var(--metal) 40%, #c9c1b4 55%, #6c645a);
+
+	/* Side arm the pull chain hangs from, clear of the glass */
+	&::after {
+		content: '';
+		position: absolute;
+		top: 55%;
+		left: 90%;
+		width: calc(var(--u) * 6.5);
+		height: max(2px, calc(var(--u) * 1));
+		border-radius: 0 999px 999px 0;
+		background: linear-gradient(to bottom, #c9c1b4, var(--metal));
+	}
+}
+
+/* Glass: round globe plus a tapered neck */
+.lamp__bulb {
+	position: relative;
+	width: calc(var(--u) * 14);
+	aspect-ratio: 1;
+	margin-top: calc(var(--u) * 3.5);
+	border-radius: 50%;
+	background:
+		radial-gradient(
+			circle at 34% 30%,
+			rgba(255, 255, 255, 0.85) 0 9%,
+			transparent 22%
+		),
+		var(--glass);
+	box-shadow: inset calc(var(--u) * -1) calc(var(--u) * -1.2)
+		calc(var(--u) * 2.5) rgba(0, 0, 0, 0.18);
+
+	&::before {
+		content: '';
+		position: absolute;
+		bottom: 78%;
+		left: 50%;
+		width: 52%;
+		height: 40%;
+		translate: -50% 0;
+		background: var(--glass);
+		clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+	}
+}
+
+/* Filament: a small U hanging in the globe */
+.lamp__filament {
+	position: absolute;
+	left: 50%;
+	top: 22%;
+	width: 34%;
+	height: 30%;
+	translate: -50% 0;
+	border: max(1px, calc(var(--u) * 0.45)) solid var(--filament);
+	border-top: 0;
+	border-radius: 0 0 50% 50%;
+}
+
+/* Pull chain: beads drawn with a gradient, pull knob at the end.
+   The button is wider than the chain so it is easy to grab on a phone. */
+.lamp__chain {
+	position: absolute;
+	top: calc(var(--u) * 4.4);
+	left: calc(50% + var(--u) * 9);
+	width: 44px;
+	height: calc(var(--u) * 34 + 12px);
+	min-height: 44px;
+	translate: -50% 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+	pointer-events: auto;
+	transform-origin: 50% 0;
+	touch-action: manipulation;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 12px;
+		left: 50%;
+		width: max(3px, calc(var(--u) * 0.9));
+		translate: -50% 0;
+		background: radial-gradient(circle, #b5aa98 0 45%, transparent 50%) 0 0 /
+			100% max(4px, calc(var(--u) * 1.3)) repeat-y;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: max(8px, calc(var(--u) * 2.4));
+		height: max(12px, calc(var(--u) * 3.6));
+		translate: -50% 0;
+		border-radius: 40% 40% 50% 50%;
+		background: linear-gradient(to right, #6f6557, #c4b9a6 45%, #7c7163);
+	}
+
+	&:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 4px;
+		border-radius: 999px;
+	}
+}
+
+/* The whole lamp is a click target, so a click on the glass never reaches the avatar */
+.lamp__socket,
+.lamp__bulb {
+	pointer-events: auto;
+	cursor: pointer;
+}
+[aria-disabled='true'],
+.lamp:has([aria-disabled='true']) :is(.lamp__socket, .lamp__bulb) {
+	cursor: default;
+}
+
+/* Night, lamp off: the glass falls into the dark */
+[data-scene='night'] .lamp {
+	--glass: rgba(150, 156, 170, 0.45);
+	--filament: #4d4a48;
+}
+/* Lamp on: warm glass, glowing filament and halo */
+[data-light='on'] .lamp {
+	--glass: #ffe9a8;
+	--filament: #fff6d0;
+}
+[data-light='on'] .lamp__bulb {
+	background:
+		radial-gradient(circle at 50% 40%, #fffbe8 0 18%, transparent 60%),
+		var(--glass);
+	box-shadow:
+		0 0 calc(var(--u) * 6) calc(var(--u) * 2) rgba(255, 214, 130, 0.85),
+		0 0 calc(var(--u) * 22) calc(var(--u) * 8) rgba(255, 196, 110, 0.35);
+}
+[data-light='on'] .lamp__filament {
+	box-shadow: 0 0 calc(var(--u) * 1.5) #fff3c4;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-scene-ready] :is(.lamp__bulb, .lamp__bulb::before, .lamp__filament) {
+		transition:
+			background-color 0.25s,
+			box-shadow 0.25s,
+			border-color 0.25s;
+	}
+	/* Pull: the chain yanks down, the lamp sways from the ceiling */
+	.lamp.is-pulled {
+		animation: lamp-sway 1.4s ease-out;
+	}
+	.lamp.is-pulled .lamp__chain {
+		animation: chain-pull 0.35s ease-out;
+	}
+}
+
+@keyframes chain-pull {
+	40% {
+		transform: translateY(calc(var(--u) * 4));
+	}
+}
+@keyframes lamp-sway {
+	20% {
+		rotate: 0.6deg;
+	}
+	45% {
+		rotate: -0.4deg;
+	}
+	70% {
+		rotate: 0.2deg;
+	}
+}

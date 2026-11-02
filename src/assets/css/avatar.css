@@ -1,0 +1,126 @@
+/* Avatar: all layers share the same canvas size, stacked on top of each other */
+.avatar {
+	position: relative;
+	width: var(--avatar-w);
+	aspect-ratio: 3 / 4;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+	touch-action: manipulation;
+
+	& img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		pointer-events: none;
+	}
+
+	&:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 8px;
+		border-radius: 1rem;
+	}
+}
+
+/* Dawn and dusk: low, warm light. Night: in the dark until the lamp is on */
+/* Eyes are not images: they need the same filter, or they glow at night */
+[data-scene='dawn'] :is(.avatar img, .eye) {
+	filter: brightness(0.9) sepia(0.15);
+}
+[data-scene='dusk'] :is(.avatar img, .eye) {
+	filter: brightness(0.75) sepia(0.3) saturate(1.1);
+}
+[data-scene='night'] :is(.avatar img, .eye) {
+	filter: brightness(0.4) saturate(0.6);
+}
+[data-scene='night'][data-light='on'] :is(.avatar img, .eye) {
+	filter: none;
+}
+
+/* Head pivots around the neck: adjust to your image */
+.avatar__head {
+	position: absolute;
+	inset: 0;
+	transform-origin: 50% 70.46%; /* chin, where the head meets the neck */
+	will-change: transform;
+}
+
+/* Eye whites behind the head's transparent eye holes (measured on the reference image) */
+.eye {
+	position: absolute;
+	width: 10.1%;
+	aspect-ratio: 180 / 151;
+	translate: -50% -50%;
+	display: grid;
+	place-items: center;
+	background: #fcfcfc;
+}
+.eye--left {
+	left: 39.37%;
+	top: 44.75%;
+}
+.eye--right {
+	left: 60.66%;
+	top: 44.75%;
+}
+
+/* Iris with its light reflection, as drawn on the reference image */
+.pupil {
+	width: 54%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 66% 32%, #fff 0 13%, transparent 14%), var(--ink);
+}
+
+/* Overlay layers are hidden until a state class shows them */
+.avatar :is(.bored, .lids, .happy, .yawn) {
+	opacity: 0;
+}
+.is-bored .bored,
+.is-blinking .lids,
+.is-happy .happy,
+.is-yawning .yawn {
+	opacity: 1;
+}
+
+.body {
+	transform-origin: 50% 100%;
+}
+
+/* Motion only for users who did not ask to reduce it */
+@media (prefers-reduced-motion: no-preference) {
+	.body {
+		animation: breathe 4s ease-in-out infinite;
+	}
+	.avatar.is-happy {
+		animation: hop 0.5s ease-out;
+	}
+	/* `scale` composes with the JS transform on the head instead of replacing it */
+	.is-yawning .avatar__head {
+		animation: yawn-stretch 2.4s ease-in-out;
+	}
+	[data-scene-ready] :is(.avatar img, .eye) {
+		transition: filter 0.5s;
+	}
+}
+
+@keyframes breathe {
+	50% {
+		transform: scale(1.01);
+	}
+}
+@keyframes hop {
+	30% {
+		transform: translateY(-6%);
+	}
+}
+@keyframes yawn-stretch {
+	25%,
+	70% {
+		scale: 1 1.04;
+	}
+}

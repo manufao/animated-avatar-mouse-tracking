@@ -1,0 +1,38 @@
+/* Scene: avatar + ceiling bulb, with the bulb's glow behind them.
+   --u is 1% of the avatar width: the lamp scales with the avatar. */
+.scene {
+	--avatar-w: min(70vw, 45vh, 360px);
+	--u: calc(var(--avatar-w) / 100);
+	/* Bulb offset from the avatar centre: move the lamp left/right here */
+	--lamp-x: calc(var(--u) * 31);
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	justify-items: center;
+	gap: 0.75rem;
+
+	&::before {
+		content: '';
+		position: absolute;
+		/* Square centred on the bulb (centre at 50% + lamp-x + 7u, 21u down) */
+		--r: calc(var(--u) * 120);
+		left: calc(50% + var(--lamp-x) + var(--u) * 7 - var(--r));
+		top: calc(var(--u) * 21 - var(--r));
+		width: calc(var(--r) * 2);
+		height: calc(var(--r) * 2);
+		z-index: -1;
+		background: radial-gradient(closest-side, var(--glow), transparent);
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+[data-scene='night'][data-light='on'] .scene::before {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-scene-ready] .scene::before {
+		transition: opacity 0.5s;
+	}
+}

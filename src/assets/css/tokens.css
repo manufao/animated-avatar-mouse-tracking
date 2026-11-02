@@ -1,0 +1,30 @@
+/* Day palette by default. The scene follows Paris daylight (night, dawn, day, dusk), not the system theme. */
+:root {
+	--bg: #f6f1ea;
+	--text: #1d1b19;
+	--ink: #402b2b; /* iris colour, from the reference image */
+	--accent: #c2492a;
+	--glow: rgba(255, 196, 110, 0.38);
+	color-scheme: light;
+}
+
+:root[data-scene='dawn'] {
+	--bg: #f3dfe2;
+	--text: #2b2130;
+	--accent: #a8466f;
+	color-scheme: light;
+}
+
+:root[data-scene='dusk'] {
+	--bg: #3a2846;
+	--text: #f4e7ee;
+	--accent: #ffa25c;
+	color-scheme: dark;
+}
+
+:root[data-scene='night'] {
+	--bg: #11151f;
+	--text: #dde3ee;
+	--accent: #f2b84b;
+	color-scheme: dark;
+}

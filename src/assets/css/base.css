@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+/* Main content centered in the free space, footer pinned at the bottom */
+body {
+	display: grid;
+	grid-template-rows: 1fr auto;
+	justify-items: center;
+	align-items: center;
+	background: var(--bg);
+	color: var(--text);
+	font:
+		1rem/1.5 system-ui,
+		sans-serif;
+}
+
+.page {
+	display: grid;
+	justify-items: center;
+	gap: 1rem;
+	padding: 1.5rem 1rem;
+	text-align: center;
+}
+
+h1 {
+	margin: 0.5rem 0 0;
+	font-size: clamp(1.6rem, 5vw, 2.4rem);
+}
+
+p {
+	margin: 0;
+}
+
+/* Fades only after the first paint (scene.js sets data-scene-ready) */
+@media (prefers-reduced-motion: no-preference) {
+	[data-scene-ready] body {
+		transition:
+			background-color 0.8s,
+			color 0.8s;
+	}
+}
