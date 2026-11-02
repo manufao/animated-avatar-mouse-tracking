@@ -1,6 +1,7 @@
 Copyright (c) 2026 Emmanuel Maravilha. All rights reserved.
 
 The images in public/img/ (the avatar layers and the occasion accessories)
+and in docs/images/ (the README banners and logos, made from these layers)
 depict the author. They are NOT covered by the MIT license of the source code.
 
 You may view them as part of this repository and of the deployed site. You may
