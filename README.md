@@ -7,10 +7,12 @@
 
 <img src="public/img/avatar-static.webp" alt="Drawing of the author's avatar, with a bun and a curious look" width="200">
 
-# Animated Avatar Mouse Tracking
-
+<!-- Animated title, in the GitHub text colour of each theme -->
 <a href="https://github.com/DenverCoder1/readme-typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Fredoka&weight=600&size=30&duration=3000&pause=1200&color=C2492A&center=true&vCenter=true&width=640&height=50&lines=Animated+Avatar+Mouse+Tracking;It+watches+your+mouse;It+blinks%2C+gets+bored%2C+yawns;Day+and+night+in+Paris" alt="Typing animation: Animated Avatar Mouse Tracking. It watches your mouse. It blinks, gets bored, yawns. Day and night in Paris.">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=32&duration=3000&pause=1200&center=true&vCenter=true&width=640&height=50&lines=Animated+Avatar+Mouse+Tracking;It+watches+your+mouse;It+blinks%2C+gets+bored%2C+yawns;Day+and+night+in+Paris&color=F0F6FC">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=32&duration=3000&pause=1200&center=true&vCenter=true&width=640&height=50&lines=Animated+Avatar+Mouse+Tracking;It+watches+your+mouse;It+blinks%2C+gets+bored%2C+yawns;Day+and+night+in+Paris&color=1F2328" alt="Animated Avatar Mouse Tracking. It watches your mouse. It blinks, gets bored, yawns. Day and night in Paris.">
+  </picture>
 </a>
 
 **An "under construction" page that looks back at you.**
