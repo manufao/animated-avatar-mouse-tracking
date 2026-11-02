@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr" data-scene="day">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Manu — site en construction</title>
+		<meta name="description" content="Mon site arrive bientôt." />
+		<link rel="stylesheet" href="./src/assets/css/main.css" />
+		<script type="module" src="./src/main.js"></script>
+	</head>
+	<body>
+		<main class="page">
+			<div class="scene">
+				<button
+					class="avatar"
+					type="button"
+					data-avatar
+					aria-label="Ma mascotte : cliquez pour la faire réagir"
+				>
+					<img
+						class="body"
+						src="img/body.webp"
+						alt=""
+						width="720"
+						height="960"
+					/>
+					<span class="avatar__head" data-head>
+						<!-- Eyes sit under the head layer: its transparent eye holes clip the pupils -->
+						<span class="eye eye--left" data-eye
+							><span class="pupil"></span
+						></span>
+						<span class="eye eye--right" data-eye
+							><span class="pupil"></span
+						></span>
+						<img src="img/head-blank.webp" alt="" width="720" height="960" />
+						<img
+							class="bored"
+							src="img/head-bored.webp"
+							alt=""
+							width="720"
+							height="960"
+						/>
+						<img
+							class="lids"
+							src="img/lids-closed.webp"
+							alt=""
+							width="720"
+							height="960"
+						/>
+						<img
+							class="happy"
+							src="img/head-happy.webp"
+							alt=""
+							width="720"
+							height="960"
+						/>
+						<img
+							class="yawn"
+							src="img/head-yawn.webp"
+							alt=""
+							width="720"
+							height="960"
+						/>
+					</span>
+				</button>
+				<!-- Ceiling bulb, pure CSS. Always shown; the pull chain only works at night (scene.js) -->
+				<div class="lamp" data-lamp>
+					<span class="lamp__socket"></span>
+					<span class="lamp__bulb"><span class="lamp__filament"></span></span>
+					<button
+						class="lamp__chain"
+						type="button"
+						data-light-toggle
+						aria-pressed="false"
+						aria-disabled="true"
+						aria-label="Tirer la chaînette : la lumière ne s'allume que la nuit"
+					></button>
+				</div>
+			</div>
+			<h1>Site en construction</h1>
+			<p>Je prépare quelque chose. Revenez bientôt.</p>
+		</main>
+		<footer class="footer">
+			<nav class="socials" aria-label="Réseaux sociaux">
+				<a
+					href="https://fr.linkedin.com/in/emmanuel-maravilha-0a8b053b"
+					rel="me"
+					>LinkedIn</a
+				>
+				<a href="https://github.com/manufao" rel="me">GitHub</a>
+			</nav>
+			<div
+				class="scene-choices"
+				role="group"
+				aria-label="Ambiance de la page"
+				data-scene-choices
+				hidden
+			>
+				<button type="button" data-scene-choice="auto" aria-pressed="true">
+					Heure de Paris
+				</button>
+				<button type="button" data-scene-choice="day" aria-pressed="false">
+					Jour
+				</button>
+				<button type="button" data-scene-choice="night" aria-pressed="false">
+					Nuit
+				</button>
+			</div>
+		</footer>
+	</body>
+</html>
