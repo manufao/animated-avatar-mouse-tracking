@@ -24,7 +24,8 @@
 		"test:ci": "vitest run --coverage",
 		"security:audit": "pnpm audit --prod",
 		"security:scan": "gitleaks detect --source . -v",
-		"prepare": "husky"
+		"prepare": "husky",
+		"test:tools": "cd outils && uv run ruff format --check . && uv run ruff check . && uv run pytest"
 	},
 	"lint-staged": {
 		"*.js": [
@@ -33,6 +34,10 @@
 		],
 		"*.{css,json,md,yaml,yml,html}": [
 			"prettier --write"
+		],
+		"outils/**/*.py": [
+			"uv run --project outils ruff format",
+			"uv run --project outils ruff check --fix"
 		]
 	},
 	"commitlint": {

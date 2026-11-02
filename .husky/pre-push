@@ -22,3 +22,6 @@ if node -e "process.exit(require('./package.json').scripts?.test ? 0 : 1)"; then
   echo "Running tests..."
   pnpm run test --run || { echo "Tests failed: push blocked."; exit 1; }
 fi
+
+echo "Running Python tool checks..."
+pnpm run test:tools || { echo "Python tool checks failed: push blocked."; exit 1; }
