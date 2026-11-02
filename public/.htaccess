@@ -1,0 +1,51 @@
+# .htaccess — static under-construction page on OVH shared hosting (Apache).
+# Each block sits in <IfModule>: a missing module skips it instead of an error 500.
+# After upload, check the headers with: curl -sI https://www.example.tld/
+
+# --- HTTPS redirect, as in the OVH guide. Off by default: uncomment the three lines
+# once https:// opens the site with a valid Let's Encrypt certificate.
+# Replace www.example.tld with your domain (hard-coded on purpose: no Host header in redirects).
+<IfModule mod_rewrite.c>
+  # RewriteEngine On
+  # RewriteCond %{SERVER_PORT} 80
+  # RewriteRule ^(.*)$ https://www.example.tld/$1 [R,L]
+</IfModule>
+
+# --- Security headers
+<IfModule mod_headers.c>
+  # Only the site's own files: no CDN, no inline script, no inline style element
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  # No sensor, camera, microphone or location access: the page needs none
+  Header always set Permissions-Policy "accelerometer=(), gyroscope=(), camera=(), microphone=(), geolocation=()"
+  # Start short; raise to 31536000 (1 year) once HTTPS works on every page
+  Header always set Strict-Transport-Security "max-age=300"
+</IfModule>
+
+# --- Correct types for module scripts and WebP
+<IfModule mod_mime.c>
+  AddType text/javascript .js
+  AddType image/webp .webp
+</IfModule>
+
+# --- Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript image/svg+xml
+</IfModule>
+
+# --- Caching: HTML always fresh. CSS and JS names carry a content hash (Vite build),
+# so they can be cached for a year: a change produces a new file name.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# No directory listing. Not guardable by IfModule: uncomment it alone first,
+# reload the site, and remove it again if the host answers with an error 500.
+# Options -Indexes
