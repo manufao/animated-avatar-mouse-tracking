@@ -1,0 +1,78 @@
+name: Release
+
+# Push a tag such as v1.0.0 on main: the site is tested, built, zipped and
+# published as a GitHub release, with its notes taken from CHANGELOG.md.
+# Actions are pinned to a commit and nothing is cached: what ships is built
+# from scratch, with code that cannot be swapped behind a tag.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Build and publish the release
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to create the release and upload the zip
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Use Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          # Caching is on by default when package.json names its package manager
+          package-manager-cache: false
+
+      - name: Deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Check the tag matches package.json
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+
+      - name: Test
+        run: pnpm run test:ci
+
+      - name: Build
+        run: pnpm run build
+
+      # The zip holds the content of dist/, .htaccess included: unzip it at the site root
+      - name: Package the site
+        run: cd dist && zip -r "../site-$GITHUB_REF_NAME.zip" .
+
+      - name: Extract the release notes
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v heading="## [$version]" '
+            index($0, heading) == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found && /^\[[^]]+\]: / { next }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "No section for $version in CHANGELOG.md"
+            exit 1
+          fi
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME" "site-$GITHUB_REF_NAME.zip"
+          --title "$GITHUB_REF_NAME" --notes-file release-notes.md --verify-tag
