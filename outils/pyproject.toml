@@ -1,0 +1,37 @@
+[project]
+name = "avatar-layer-builder"
+version = "1.0.0"
+description = "Cuts the avatar pictures into aligned transparent WebP layers."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.5.4",
+    "pillow>=13.0.0",
+    "scipy>=1.18.1",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.3",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "N", "UP", "B", "C4", "SIM", "PTH", "RET", "ARG",
+    "FBT", "PL", "NPY", "PT", "RUF",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "--cov=masks --cov-report=term-missing --cov-fail-under=100"
