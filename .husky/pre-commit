@@ -1,0 +1,12 @@
+[ -n "$CI" ] && exit 0
+
+echo "Running Gitleaks secret scan..."
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks not installed, skipping secret scan (brew install gitleaks)."
+elif ! gitleaks protect --staged --verbose; then
+  echo "Secrets detected in staged changes: commit blocked."
+  exit 1
+fi
+
+echo "Running lint-staged..."
+pnpm exec lint-staged
