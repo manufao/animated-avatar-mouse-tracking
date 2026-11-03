@@ -21,8 +21,9 @@
   Header always set X-Frame-Options "DENY"
   # No sensor, camera, microphone or location access: the page needs none
   Header always set Permissions-Policy "accelerometer=(), gyroscope=(), camera=(), microphone=(), geolocation=()"
-  # Start short; raise to 31536000 (1 year) once HTTPS works on every page
-  Header always set Strict-Transport-Security "max-age=300"
+  # One year: HTTPS is checked on both hosts. Browsers then refuse plain HTTP for
+  # this site, so keep the Let's Encrypt certificates renewed.
+  Header always set Strict-Transport-Security "max-age=31536000"
 </IfModule>
 
 # --- Correct types for module scripts and WebP
@@ -47,6 +48,6 @@
   ExpiresByType image/svg+xml "access plus 1 month"
 </IfModule>
 
-# No directory listing. Not guardable by IfModule: uncomment it alone first,
-# reload the site, and remove it again if the host answers with an error 500.
-# Options -Indexes
+# No directory listing: a folder URL such as /img/ answers 403 instead of its file list.
+# Not guardable by IfModule: if the host answers with an error 500, remove this line.
+Options -Indexes
