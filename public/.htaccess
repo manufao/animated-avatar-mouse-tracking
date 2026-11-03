@@ -47,6 +47,6 @@
   ExpiresByType image/svg+xml "access plus 1 month"
 </IfModule>
 
-# No directory listing. Not guardable by IfModule: uncomment it alone first,
-# reload the site, and remove it again if the host answers with an error 500.
-# Options -Indexes
+# No directory listing: a folder URL such as /img/ answers 403 instead of its file list.
+# Not guardable by IfModule: if the host answers with an error 500, remove this line.
+Options -Indexes
