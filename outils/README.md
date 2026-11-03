@@ -100,10 +100,8 @@ Shape of the file, with the values behind the current CSS (rounded):
 The page loads the six main avatar layers as AVIF and falls back to WebP for the browsers that cannot read it. [`build_avif.py`](build_avif.py) writes the `.avif` file next to each of the six layers of `public/img/` (quality 60, full colour resolution): **37% lighter** than the WebP, for 45 dB or more of fidelity. Run it again after copying new layers:
 
 ```bash
-uv run --project outils outils/build_avif.py --preview
+uv run --project outils outils/build_avif.py
 ```
-
-`--preview` writes `outils/out/avif-preview.png`: every layer as WebP, as AVIF and as an amplified difference, plus a close-up of the face. Open it to check the quality by eye before you ship the new pictures.
 
 The special-date accessories stay WebP: the page script picks their file from the list in `src/data/occasions.js`.
 
@@ -124,7 +122,7 @@ Every threshold is a named constant at the top of [`build_layers.py`](build_laye
 ```
 outils/
   build_layers.py     the pipeline: load, split, build each layer, measure
-  build_avif.py       the AVIF version of the layers, and its preview
+  build_avif.py       the AVIF version of the layers
   build_favicon.py    the site icons, from the static avatar
   masks.py            pure mask and matting helpers
   tests/              pytest suite
