@@ -26,10 +26,11 @@
   Header always set Strict-Transport-Security "max-age=31536000"
 </IfModule>
 
-# --- Correct types for module scripts and WebP
+# --- Correct types for module scripts, WebP and AVIF (a host that does not know AVIF sends no type)
 <IfModule mod_mime.c>
   AddType text/javascript .js
   AddType image/webp .webp
+  AddType image/avif .avif
 </IfModule>
 
 # --- Compression
@@ -45,6 +46,7 @@
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType text/javascript "access plus 1 year"
   ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/avif "access plus 1 month"
   ExpiresByType image/svg+xml "access plus 1 month"
   ExpiresByType image/png "access plus 1 month"
   ExpiresByType image/vnd.microsoft.icon "access plus 1 month"

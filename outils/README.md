@@ -68,7 +68,7 @@ Requirement: [uv](https://docs.astral.sh/uv/getting-started/installation/). It i
 uv run --project outils outils/build_layers.py
 ```
 
-The command works from any folder. Then copy the layers of `outils/out/` to `public/img/`.
+The command works from any folder. Then copy the layers of `outils/out/` to `public/img/` and [make their AVIF versions](#-avif-layers).
 
 ## 📤 Outputs
 
@@ -95,6 +95,16 @@ Shape of the file, with the values behind the current CSS (rounded):
 | `eyes[].w`           | `width` of `.eye`                                           |
 | `pivot.y`            | `transform-origin` of `.avatar__head`                       |
 
+## 🪶 AVIF layers
+
+The page loads the six main avatar layers as AVIF and falls back to WebP for the browsers that cannot read it. [`build_avif.py`](build_avif.py) writes the `.avif` file next to each of the six layers of `public/img/` (quality 60, full colour resolution): **37% lighter** than the WebP, for 45 dB or more of fidelity. Run it again after copying new layers:
+
+```bash
+uv run --project outils outils/build_avif.py
+```
+
+The special-date accessories stay WebP: the page script picks their file from the list in `src/data/occasions.js`.
+
 ## 🖼️ Site icons
 
 [`build_favicon.py`](build_favicon.py) crops the face of `public/img/avatar-static.webp` onto a round disc and writes `public/favicon.ico` (16, 32 and 48 pixels) and `public/apple-touch-icon.png` (180 pixels). Run it again whenever the avatar changes:
@@ -112,6 +122,7 @@ Every threshold is a named constant at the top of [`build_layers.py`](build_laye
 ```
 outils/
   build_layers.py     the pipeline: load, split, build each layer, measure
+  build_avif.py       the AVIF version of the layers
   build_favicon.py    the site icons, from the static avatar
   masks.py            pure mask and matting helpers
   tests/              pytest suite

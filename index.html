@@ -19,13 +19,15 @@
 					data-avatar
 					aria-label="Ma mascotte : cliquez pour la faire réagir"
 				>
-					<img
-						class="body"
-						src="img/body.webp"
-						alt=""
-						width="720"
-						height="960"
-					/>
+					<picture
+						><source type="image/avif" srcset="img/body.avif" />
+						<img
+							class="body"
+							src="img/body.webp"
+							alt=""
+							width="720"
+							height="960"
+					/></picture>
 					<span class="avatar__head" data-head>
 						<!-- Eyes sit under the head layer: its transparent eye holes clip the pupils -->
 						<span class="eye eye--left" data-eye
@@ -34,35 +36,46 @@
 						<span class="eye eye--right" data-eye
 							><span class="pupil"></span
 						></span>
-						<img src="img/head-blank.webp" alt="" width="720" height="960" />
-						<img
-							class="bored"
-							src="img/head-bored.webp"
-							alt=""
-							width="720"
-							height="960"
-						/>
-						<img
-							class="lids"
-							src="img/lids-closed.webp"
-							alt=""
-							width="720"
-							height="960"
-						/>
-						<img
-							class="happy"
-							src="img/head-happy.webp"
-							alt=""
-							width="720"
-							height="960"
-						/>
-						<img
-							class="yawn"
-							src="img/head-yawn.webp"
-							alt=""
-							width="720"
-							height="960"
-						/>
+						<picture
+							><source type="image/avif" srcset="img/head-blank.avif" />
+							<img src="img/head-blank.webp" alt="" width="720" height="960"
+						/></picture>
+						<picture
+							><source type="image/avif" srcset="img/head-bored.avif" />
+							<img
+								class="bored"
+								src="img/head-bored.webp"
+								alt=""
+								width="720"
+								height="960"
+						/></picture>
+						<picture
+							><source type="image/avif" srcset="img/lids-closed.avif" />
+							<img
+								class="lids"
+								src="img/lids-closed.webp"
+								alt=""
+								width="720"
+								height="960"
+						/></picture>
+						<picture
+							><source type="image/avif" srcset="img/head-happy.avif" />
+							<img
+								class="happy"
+								src="img/head-happy.webp"
+								alt=""
+								width="720"
+								height="960"
+						/></picture>
+						<picture
+							><source type="image/avif" srcset="img/head-yawn.avif" />
+							<img
+								class="yawn"
+								src="img/head-yawn.webp"
+								alt=""
+								width="720"
+								height="960"
+						/></picture>
 					</span>
 				</button>
 				<!-- Ceiling bulb, pure CSS. Always shown; the pull chain only works at night (scene.js) -->
