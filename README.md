@@ -118,7 +118,7 @@ Dependencies go one way only: `components` use `lib`, `data` and `config`, never
 
 ## 🎨 Bring your own avatar
 
-The avatar is a stack of transparent layers on the same 720 × 960 canvas: the body, the blank head, the bored, happy and yawning faces, the closed eyelids, and one accessory per special date. The eyes are not in the pictures: they are CSS shapes behind the transparent eye holes of the head, which is why the pupils can move.
+The avatar is a stack of transparent layers on the same 720 × 960 canvas: the body, the blank head, the bored, happy and yawning faces, the closed eyelids, and one accessory per special date. The eyes are not in the pictures: they are CSS shapes behind the transparent eye holes of the head, which is why the pupils can move. Each layer is served as AVIF, 37% lighter than WebP, with a WebP fallback for older browsers.
 
 [`outils/build_layers.py`](outils/build_layers.py) builds these layers from seven pictures of the same character, one per expression, all with the same framing. It removes the white background, cuts the head from the body, and writes the eye and neck positions to `out/landmarks.json`, ready to copy into `src/assets/css/avatar.css`. The steps are in [outils/README.md](outils/README.md).
 
