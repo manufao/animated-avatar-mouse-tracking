@@ -95,6 +95,14 @@ Shape of the file, with the values behind the current CSS (rounded):
 | `eyes[].w`           | `width` of `.eye`                                           |
 | `pivot.y`            | `transform-origin` of `.avatar__head`                       |
 
+## 🖼️ Site icons
+
+[`build_favicon.py`](build_favicon.py) crops the face of `public/img/avatar-static.webp` onto a round disc and writes `public/favicon.ico` (16, 32 and 48 pixels) and `public/apple-touch-icon.png` (180 pixels). Run it again whenever the avatar changes:
+
+```bash
+uv run --project outils outils/build_favicon.py
+```
+
 ## 🎛️ Tuning
 
 Every threshold is a named constant at the top of [`build_layers.py`](build_layers.py), measured on the 1792 × 2400 source pictures: the skin colour, the neck seed pixel, the split rows, the crown rows and colours. With another character or framing, adjust them there first.
@@ -104,6 +112,7 @@ Every threshold is a named constant at the top of [`build_layers.py`](build_laye
 ```
 outils/
   build_layers.py     the pipeline: load, split, build each layer, measure
+  build_favicon.py    the site icons, from the static avatar
   masks.py            pure mask and matting helpers
   tests/              pytest suite
   pyproject.toml      dependencies, Ruff and pytest settings
