@@ -97,7 +97,7 @@ Shape of the file, with the values behind the current CSS (rounded):
 
 ## 🪶 AVIF layers
 
-The page loads each avatar layer as AVIF and falls back to WebP for the browsers that cannot read it. [`build_avif.py`](build_avif.py) writes the `.avif` file next to each of the six layers of `public/img/` (quality 60, full colour resolution): **37% lighter** than the WebP, for 45 dB or more of fidelity. Run it again after copying new layers:
+The page loads the six main avatar layers as AVIF and falls back to WebP for the browsers that cannot read it. [`build_avif.py`](build_avif.py) writes the `.avif` file next to each of the six layers of `public/img/` (quality 60, full colour resolution): **37% lighter** than the WebP, for 45 dB or more of fidelity. Run it again after copying new layers:
 
 ```bash
 uv run --project outils outils/build_avif.py --preview
