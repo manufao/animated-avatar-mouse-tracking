@@ -4,6 +4,18 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-11-03
+
+### Added
+
+- A favicon: the avatar's face on a round disc, in the browser tab and as the home screen icon of a phone.
+- An icon builder in `outils/` that makes the favicon again from the avatar picture.
+
+### Security
+
+- Folder addresses such as `/img/` no longer list their files.
+- Browsers now stay on HTTPS for this site for a year (HSTS).
+
 ## [1.0.0] - 2026-11-03
 
 First public release, live on [emmanuelmaravilha.com](https://emmanuelmaravilha.com/).
@@ -25,4 +37,5 @@ First public release, live on [emmanuelmaravilha.com](https://emmanuelmaravilha.
 - Strict security headers: a Content Security Policy that only allows the site's own files, no framing, no sniffing, no sensor access.
 - Every visit lands on `https://emmanuelmaravilha.com/`: `http://` and `www` redirect there permanently.
 
+[1.1.0]: https://github.com/manufao/animated-avatar-mouse-tracking/releases/tag/v1.1.0
 [1.0.0]: https://github.com/manufao/animated-avatar-mouse-tracking/releases/tag/v1.0.0
