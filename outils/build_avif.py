@@ -55,6 +55,12 @@ def to_avif(source: Path, target: Path, quality: int = AVIF_QUALITY) -> None:
         )
 
 
+def load_rgba(path: Path) -> Image.Image:
+    """Read a picture fully, then close its file."""
+    with Image.open(path) as picture:
+        return picture.convert("RGBA")
+
+
 def convert(img_dir: Path = IMG_DIR) -> dict[str, tuple[int, int]]:
     """Write the AVIF of every layer. Returns the (WebP, AVIF) sizes in bytes."""
     sizes = {}
@@ -109,8 +115,8 @@ def preview(img_dir: Path = IMG_DIR, path: Path = PREVIEW_PATH) -> None:
     """Write the comparison sheet: every layer, then a close-up of the face."""
     pairs = {
         name: (
-            Image.open(img_dir / f"{name}.webp").convert("RGBA"),
-            Image.open(img_dir / f"{name}.avif").convert("RGBA"),
+            load_rgba(img_dir / f"{name}.webp"),
+            load_rgba(img_dir / f"{name}.avif"),
         )
         for name in LAYERS
     }

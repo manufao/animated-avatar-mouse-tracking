@@ -5,7 +5,7 @@ import pytest
 from PIL import Image
 
 import build_avif
-from build_avif import LAYERS, convert, over_backdrop, preview, psnr, to_avif
+from build_avif import LAYERS, convert, load_rgba, over_backdrop, preview, psnr, to_avif
 
 LAYER_SIZE = (720, 960)
 ALPHA_TOLERANCE = 5  # out of 255: lossy compression may blur an edge
@@ -56,6 +56,23 @@ class TestOverBackdrop:
         # Then
         assert flat.mode == "RGB"
         assert flat.getpixel((0, 0)) == build_avif.BACKDROP
+
+
+class TestLoadRgba:
+    def test_should_return_a_complete_rgba_picture_without_its_file(
+        self, tmp_path: Path
+    ) -> None:
+        # Given
+        path = tmp_path / "layer.webp"
+        Image.new("RGB", (8, 8), (10, 20, 30)).save(path, lossless=True)
+
+        # When
+        picture = load_rgba(path)
+        path.unlink()
+
+        # Then
+        assert picture.mode == "RGBA"
+        assert picture.getpixel((7, 7)) == (10, 20, 30, 255)
 
 
 class TestToAvif:
