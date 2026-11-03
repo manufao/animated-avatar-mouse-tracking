@@ -1,6 +1,6 @@
 {
 	"name": "animated-avatar-mouse-tracking",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"private": true,
 	"description": "Under construction page: a 2D avatar follows the mouse, blinks, gets bored and yawns, on Paris daylight time.",
 	"license": "MIT",
